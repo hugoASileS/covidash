@@ -1,0 +1,8 @@
+package.json
+package-lock.json
+yarn.lock
+dist
+e2e
+documentation
+node_modules
+src/styles
