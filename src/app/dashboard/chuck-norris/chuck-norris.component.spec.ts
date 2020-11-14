@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ChuckNorrisComponent } from './chuck-norris.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('ChuckNorrisComponent', () => {
   let component: ChuckNorrisComponent;
@@ -8,9 +10,9 @@ describe('ChuckNorrisComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChuckNorrisComponent ]
-    })
-    .compileComponents();
+      declarations: [ChuckNorrisComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
+    }).compileComponents();
   });
 
   beforeEach(() => {
