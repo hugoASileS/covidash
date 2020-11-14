@@ -1,3 +1,42 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2">Chuck Norris</h1>
 </div>
+<form [formGroup]="chuckFormGroup" (ngSubmit)="handleSubmitChuck()">
+  <div class="form-check form-check-inline">
+    <input formControlName="random" class="form-check-input" type="radio" name="random" id="custom" value="custom" />
+    <label class="form-check-label" for="custom">Personalizado</label>
+  </div>
+  <div class="form-check form-check-inline">
+    <input formControlName="random" class="form-check-input" type="radio" name="random" id="random" value="random" />
+    <label class="form-check-label" for="random">Random</label>
+  </div>
+  <div class="form-row" *ngIf="chuckFormGroup.controls.random.value === 'custom'">
+    <div class="form-group col">
+      <label for="search">Buscar</label>
+      <input type="text" class="form-control" id="search" formControlName="query" />
+    </div>
+    <div class="form-group col" *ngIf="showCategory">
+      <label for="type">Categoría</label>
+      <select id="type" name="miselect" formControlName="category" class="form-control">
+        <option value="" disabled>Seleccione una opción</option>
+        <option [value]="category" *ngFor="let category of categories$ | async">{{ category }}</option>
+      </select>
+    </div>
+  </div>
+  <button *ngIf="chuckFormGroup.controls.random.value === 'random'" type="submit" class="btn btn-info">Otro</button>
+</form>
+<ng-container *ngIf="chuck$ | async as chuck">
+  <a [href]="chuck.url" target="_blank"><img [src]="chuck.icon_url" alt="chuck" /></a>
+  <b *ngIf="chuck.categories.length > 0">Categoria: </b
+  ><span *ngFor="let category of chuck.categories">{{ category }}</span>
+  <br />
+  {{ chuck.value }}
+</ng-container>
+<ng-container *ngIf="resultSearch$ | async as result">
+  Resultados: {{ result.total }}
+  <ng-container *ngFor="let chuck of result.result">
+    <hr />
+    <a [href]="chuck.url" target="_blank"><img [src]="chuck.icon_url" alt="chuck" /></a>
+    {{ chuck.value }}
+  </ng-container>
+</ng-container>
