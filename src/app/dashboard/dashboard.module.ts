@@ -6,13 +6,10 @@ import { DashboardComponent } from './dashboard.component';
 import { CovidComponent } from './covid/covid.component';
 import { NumberComponent } from './number/number.component';
 import { ChuckNorrisComponent } from './chuck-norris/chuck-norris.component';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [DashboardComponent, CovidComponent, NumberComponent, ChuckNorrisComponent],
-  imports: [
-    CommonModule,
-    DashboardRoutingModule
-  ]
+  imports: [CommonModule, DashboardRoutingModule, ReactiveFormsModule],
 })
-export class DashboardModule { }
+export class DashboardModule {}

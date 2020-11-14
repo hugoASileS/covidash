@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NumberComponent } from './number.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NumbersService } from '../../services/numbers.service';
+import { ReactiveFormsModule } from '@angular/forms';
 
 describe('NumberComponent', () => {
   let component: NumberComponent;
@@ -8,9 +11,10 @@ describe('NumberComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NumberComponent ]
-    })
-    .compileComponents();
+      declarations: [NumberComponent],
+      imports: [HttpClientTestingModule, ReactiveFormsModule],
+      providers: [NumbersService],
+    }).compileComponents();
   });
 
   beforeEach(() => {

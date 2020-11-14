@@ -1,1 +1,93 @@
-<p>number works!</p>
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+  <h1 class="h2">Números</h1>
+</div>
+<div class="row">
+  <div class="col-5">
+    <ng-container *ngIf="number$ | async as number; else templateNull">
+      <div class="row">
+        <div class="col-4">{{ number.type === 'year' ? 'Año' : 'Número' }}:</div>
+        <div class="col">{{ number.number }}</div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-4">Dato interesante:</div>
+        <div class="col">{{ number.text }}</div>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col-4">Tipo de dato:</div>
+        <div class="col">{{ number.type }}</div>
+      </div>
+      <ng-container *ngIf="number.date">
+        <hr />
+        <div class="row">
+          <div class="col-4">Fecha:</div>
+          <div class="col">{{ number.date }}</div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="number.year">
+        <hr />
+        <div class="row" *ngIf="number.date">
+          <div class="col-4">Año:</div>
+          <div class="col">{{ number.year }}</div>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-template #templateNull>
+      <div class="text-center">Seleccione y consulte un dato curioso</div>
+    </ng-template>
+  </div>
+  <div class="col-7">
+    <form [formGroup]="numberFormGroup" (ngSubmit)="handleSubmitNumber()">
+      <div class="form-check form-check-inline">
+        <input
+          formControlName="random"
+          class="form-check-input"
+          type="radio"
+          name="random"
+          id="custom"
+          value="custom"
+        />
+        <label class="form-check-label" for="custom">Personalizado</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          formControlName="random"
+          class="form-check-input"
+          type="radio"
+          name="random"
+          id="random"
+          value="random"
+        />
+        <label class="form-check-label" for="random">Random</label>
+      </div>
+      <div class="form-row">
+        <div class="form-group col">
+          <label for="type">Tipo de dato</label>
+          <select id="type" name="miselect" formControlName="type" class="form-control">
+            <option [value]="t.value" *ngFor="let t of types">{{ t.title }}</option>
+          </select>
+        </div>
+        <ng-container *ngIf="numberFormGroup.controls.random.value == 'custom'">
+          <div class="form-group col" *ngIf="numberFormGroup.controls.type.value != 'date'">
+            <label for="number">{{ numberFormGroup?.controls?.type?.value == 'year' ? 'Año' : 'Número' }}</label>
+            <input type="number" class="form-control" id="number" formControlName="number" />
+          </div>
+          <ng-container *ngIf="numberFormGroup.controls.type.value == 'date'">
+            <div class="form-group col">
+              <label for="month">Mes</label>
+              <select id="month" name="miselect" formControlName="month" class="form-control">
+                <option [value]="m.value" *ngFor="let m of month">{{ m.title }}</option>
+              </select>
+            </div>
+            <div class="form-group col">
+              <label for="day">Día</label>
+              <input type="number" class="form-control" id="day" formControlName="day" />
+            </div>
+          </ng-container>
+        </ng-container>
+      </div>
+      <button type="submit" class="btn btn-primary">Consultar</button>
+    </form>
+  </div>
+</div>
