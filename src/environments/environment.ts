@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  ipRegistry: {
+    url: 'https://api.ipregistry.co',
+    apiKey: 'whxm791ffosm6z',
+  },
 };
 
 /*

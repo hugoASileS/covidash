@@ -1,3 +1,120 @@
 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
   <h1 class="h2">Covid</h1>
 </div>
+<div class="row">
+  <div class="col-12">
+    <form [formGroup]="covidFormGroup">
+      <div class="form-check form-check-inline">
+        <input
+          formControlName="localIp"
+          class="form-check-input"
+          type="radio"
+          name="localIp"
+          id="custom"
+          [value]="true"
+        />
+        <label class="form-check-label" for="custom">Mi pais</label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input
+          formControlName="localIp"
+          class="form-check-input"
+          type="radio"
+          name="localIp"
+          id="random"
+          [value]="false"
+        />
+        <label class="form-check-label" for="random">Otro Pais</label>
+      </div>
+      <div class="form-row" *ngIf="covidFormGroup.controls.localIp.value === false">
+        <div class="form-group col">
+          <label for="type">Pais</label>
+          <select id="type" name="miselect" formControlName="country" class="form-control">
+            <option [ngValue]="country" *ngFor="let country of countries">
+              {{ country.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="col-2">
+    <div *ngIf="covidFormGroup.controls.country.value as otherCountry; else countryTemplate">
+      Pais:
+      <p>{{ otherCountry?.name }}</p>
+      Capital:
+      <p>{{ otherCountry?.capital }}</p>
+      Idiomas:
+      <p *ngFor="let language of otherCountry?.languages">{{ language?.name }}</p>
+      Moneda:
+      <p *ngFor="let currency of otherCountry?.currencies">{{ currency?.name }}</p>
+    </div>
+    <ng-template #countryTemplate>
+      <div *ngIf="country">
+        Pais:
+        <p>{{ country?.location?.country?.flag?.emoji }} {{ country?.location?.country?.name }}</p>
+        Capital:
+        <p>{{ country?.location?.country?.capital }}</p>
+        Idiomas:
+        <p *ngFor="let language of country?.location?.country?.languages">{{ language?.name }}</p>
+        Moneda:
+        <p>{{ country?.currency?.plural_native }}</p>
+      </div>
+    </ng-template>
+  </div>
+  <div class="col-10">
+    <div *ngIf="covid">
+      {{ covid.message }}
+      <p><b>Última comprobación:</b> {{ covid?.data?.lastChecked | date }}</p>
+      <div class="row">
+        <div class="col-xl-4 pb-4" *ngFor="let stats of covid?.data?.covid19Stats">
+          <div class="card">
+            <div class="card-body">
+              <h4 class="card-title mb-4">{{ stats.country }}</h4>
+
+              <div class="text-center">
+                <div class="mb-4">
+                  <i class="bx bx-map-pin text-primary display-4"></i>
+                </div>
+                <h5>{{ stats.province }}</h5>
+              </div>
+
+              <div class="table-responsive mt-4">
+                <table class="table table-centered table-nowrap">
+                  <tbody>
+                    <tr>
+                      <td style="width: 30%">
+                        <p class="mb-0">Confirmados</p>
+                      </td>
+                      <td style="width: 25%">
+                        <h5 class="mb-0">{{ stats.confirmed }}</h5>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="mb-0">Muertos</p>
+                      </td>
+                      <td>
+                        <h5 class="mb-0">{{ stats.deaths }}</h5>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <p class="mb-0">Recuperados</p>
+                      </td>
+                      <td>
+                        <h5 class="mb-0">{{ stats.recovered }}</h5>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <hr />
+                <h6 class="text-right"><b>Última actualización:</b> {{ stats.lastUpdate | date }}</h6>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
